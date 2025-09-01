@@ -9,15 +9,40 @@ import { fileURLToPath } from "url";
 
 dotenv.config()
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000;
 
 const app = express()
+//------------new cors start here ------------------------
+// ✅ Split multiple origins from .env and handle dynamically
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173")
+  .split(",")
+  .map(origin => origin.trim());
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        console.warn(`Blocked CORS request from origin: ${origin}`);
+        return callback(new Error("CORS not allowed for this origin"), false);
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+
+//---------------------end cors----------------------------
 
 app.use(express.json())
-app.use(cors({
-    origin: process.env.CORS_ORIGIN ||'http://localhost:5173',
-    credentials: true
-}))
+
+// app.use(cors({
+//     origin: process.env.CORS_ORIGIN ||'http://localhost:5173',
+//     credentials: true
+// }))
 
 //routes
 
