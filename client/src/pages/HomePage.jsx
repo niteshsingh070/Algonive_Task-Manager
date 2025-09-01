@@ -28,6 +28,7 @@ const HomePage = () => {
                 })
 
             const responseData = await response.json()
+            console.log("Backend Response:", data)
             if (!response.ok) {
                 throw new Error(responseData.message)
             }
