@@ -2,6 +2,9 @@ import TaskModel from "../models/Task.model.js"
 
 export const createTask = async (req, res) => {
     try {
+
+        console.log("Incoming Task Request:", req.body)      // 👈 LOG input
+        
         const { title, description } = req.body
         const newTask = new TaskModel({
             title, description
@@ -13,6 +16,8 @@ export const createTask = async (req, res) => {
             message: 'Task created successfully.'
         })
     } catch (error) {
+                console.error("Create Task Error:", error); // 👈 LOG ERROR DETAILS
+        
         res.status(500).json({
             status: false,
             message: 'Failed to create Task.'
