@@ -24,7 +24,8 @@ const HomePage = () => {
                 {
                     method: "POST",
                     headers: { 'Content-type': 'application/json' },
-                    body: JSON.stringify(validatedData)
+                     body: JSON.stringify({ title, description })
+    // -----old ------body: JSON.stringify(validatedData)
                 })
 
             const responseData = await response.json()
